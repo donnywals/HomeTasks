@@ -34,6 +34,19 @@ class TaskStore: ObservableObject {
     updateTasks()
   }
   
+  func delete(_ model: TaskModel) {
+    guard let id = model.id else { return }
+    
+    let request: NSFetchRequest<NSFetchRequestResult> = ManagedTask.fetchRequest()
+    request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+    
+    let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+    
+    _ = try! persistentContainer.viewContext.execute(deleteRequest)
+    try? persistentContainer.viewContext.save()
+    updateTasks()
+  }
+  
   private func createTask(fromModel model: TaskModel) {
     let task = ManagedTask(context: persistentContainer.viewContext)
     task.id = UUID()

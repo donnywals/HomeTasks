@@ -19,7 +19,12 @@ struct TasksOverview: View {
             NavigationLink(destination: TaskDetailView(task: task, taskStore: taskStore)) {
               TaskListItem(task: task)
             }
-          }
+          }.onDelete(perform: { indexSet in
+            for index in indexSet {
+              let task = taskStore.tasks[index]
+              taskStore.delete(task)
+            }
+          })
         }
         
         Section(header: Text("Due later")) {
