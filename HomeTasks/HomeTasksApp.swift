@@ -30,7 +30,7 @@ struct HomeTasksApp: App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView(taskStore: taskStore)
+      TasksOverview(taskStore: taskStore)
         .accentColor(.orange)
     }
   }

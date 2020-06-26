@@ -21,10 +21,14 @@ class TaskStore: ObservableObject {
     tasks = try! persistentContainer.viewContext.fetch(request)
   }
   
-  func addTask(withName name: String) {
+  func addTask(fromModel model: NewTaskModel) {
     let task = ManagedTask(context: persistentContainer.viewContext)
     task.id = UUID()
-    task.name = name
+    task.name = model.name
+    task.interval = Int64(model.interval)
+    task.rawIntervalType = model.intervalType.rawValue
+    task.firstOccurrence = model.firstOccurrence
+    task.shouldNotify = model.shouldNotify
     
     try? persistentContainer.viewContext.save()
     
@@ -39,5 +43,9 @@ extension ManagedTask: Identifiable { }
 extension ManagedTask {
   enum IntervalType: String, CaseIterable {
     case day, week, month, year
+  }
+  
+  var intervalType: IntervalType {
+    return IntervalType(rawValue: rawIntervalType ?? "week") ?? .week
   }
 }
