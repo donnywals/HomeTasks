@@ -1,5 +1,5 @@
 //
-//  AddTasksView.swift
+//  EditTaskView.swift
 //  HomeTasks
 //
 //  Created by Donny Wals on 26/06/2020.
@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct AddTaskView: View {
+struct EditTaskView: View {
   @ObservedObject var taskStore: TaskStore
   
-  @State private var taskInfo = TaskModel()
+  @Binding var taskInfo: TaskModel
   
   @Environment(\.presentationMode) private var presentationMode
   
   var body: some View {
     NavigationView {
       TaskForm(taskInfo: $taskInfo)
-        .navigationTitle("New task")
+        .navigationTitle(taskInfo.name)
         .navigationBarItems(
           leading: Button("Cancel") {
             presentationMode.wrappedValue.dismiss()

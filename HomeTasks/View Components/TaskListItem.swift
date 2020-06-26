@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskListItem: View {
-  let task: ManagedTask
+  let task: TaskModel
   
   static let taskDateFormat: DateFormatter = {
     let formatter = DateFormatter()
@@ -19,13 +19,13 @@ struct TaskListItem: View {
   var body: some View {
     HStack {
       VStack(alignment: .leading, spacing: 4) {
-        Text(task.name!)
+        Text(task.name)
           .font(Font.system(size: 18))
           .fontWeight(.bold)
         
-        Text(task.firstOccurrence!, style: .date)
+        Text(task.firstOccurrence, style: .date)
         
-        Text("Every \(task.interval) \(task.rawIntervalType!)")
+        Text("Every \(task.interval) \(task.intervalType.rawValue)")
       }
       Spacer()
     }

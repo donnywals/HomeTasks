@@ -13,7 +13,6 @@ struct TasksOverview: View {
   
   var body: some View {
     NavigationView {
-      
       List {
         Section(header: Text("Due soon")) {
           ForEach(taskStore.tasks) { task in
