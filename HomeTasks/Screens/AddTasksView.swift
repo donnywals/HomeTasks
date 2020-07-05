@@ -25,6 +25,6 @@ struct AddTaskView: View {
             taskStore.updateOrCreateTask(fromModel: taskInfo)
             presentationMode.wrappedValue.dismiss()
           })
-    }.accentColor(.orange)
+    }
   }
 }

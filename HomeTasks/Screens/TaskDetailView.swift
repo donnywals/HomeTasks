@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct TaskDetailView: View {
-  @State private var task: TaskModel
-  @State private var isEditing = false
   @ObservedObject var taskStore: TaskStore
+  @State private var task: TaskModel
+  
+  @State private var isEditing = false
   
   init(task: TaskModel, taskStore: TaskStore) {
     self._task = State(initialValue: task)

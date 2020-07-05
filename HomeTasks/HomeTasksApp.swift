@@ -20,10 +20,11 @@ struct HomeTasksApp: App {
       return container
   }()
   
+  let notificationHandler = NotificationHandler()
+  
   @StateObject var taskStore: TaskStore
   
   init() {
-    // Cannot assign to property: taskStore is a get-only property
     let s = TaskStore(persistentContainer: persistentContainer)
     self._taskStore = StateObject(wrappedValue: s)
   }
@@ -31,7 +32,11 @@ struct HomeTasksApp: App {
   var body: some Scene {
     WindowGroup {
       TasksOverview(taskStore: taskStore)
+        .environmentObject(notificationHandler)
         .accentColor(.orange)
+        .onOpenURL(perform: { url in
+          print("asked to open url: \(url)")
+        })
     }
   }
 }
