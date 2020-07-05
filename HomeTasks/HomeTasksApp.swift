@@ -23,6 +23,7 @@ struct HomeTasksApp: App {
   let notificationHandler = NotificationHandler()
   
   @StateObject var taskStore: TaskStore
+  @State var activeTab = TabIdentifier.tasksOverview
   
   init() {
     let s = TaskStore(persistentContainer: persistentContainer)
@@ -31,12 +32,42 @@ struct HomeTasksApp: App {
   
   var body: some Scene {
     WindowGroup {
-      TasksOverview(taskStore: taskStore)
-        .environmentObject(notificationHandler)
-        .accentColor(.orange)
-        .onOpenURL(perform: { url in
-          print("asked to open url: \(url)")
-        })
+      TabView(selection: $activeTab) {
+        TasksOverview(taskStore: taskStore)
+          .tabItem {
+            VStack {
+              Image(systemName: "list.star")
+              Text("Tasks")
+            }
+          }
+          .tag(TabIdentifier.tasksOverview)
+        
+        SettingsView()
+          .tabItem {
+            VStack {
+              Image(systemName: "gearshape")
+              Text("Settings")
+            }
+          }
+          .tag(TabIdentifier.settings)
+      }
+      .environmentObject(notificationHandler)
+      .accentColor(.orange)
+      .onOpenURL(perform: { url in
+        if case .settings = url.appSection {
+          activeTab = .settings
+        } else if case .tasksOverview = url.appSection {
+          activeTab = .tasksOverview
+        } else if case .task = url.appSection {
+          activeTab = .tasksOverview
+        }
+      })
     }
+  }
+}
+
+extension HomeTasksApp {
+  enum TabIdentifier: String {
+    case tasksOverview, settings
   }
 }

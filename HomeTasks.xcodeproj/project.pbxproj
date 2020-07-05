@@ -22,6 +22,7 @@
 		97DD414F24A6A06A00C36EA9 /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DD414E24A6A06A00C36EA9 /* EditTaskView.swift */; };
 		97E7A50D24B1C7B50087D9A2 /* NotificationCenterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E7A50C24B1C7B50087D9A2 /* NotificationCenterExtensions.swift */; };
 		97E7A52B24B1D8B10087D9A2 /* AppURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E7A52A24B1D8B10087D9A2 /* AppURLs.swift */; };
+		97E7A52D24B1DBC50087D9A2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E7A52C24B1DBC50087D9A2 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		97DD414E24A6A06A00C36EA9 /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
 		97E7A50C24B1C7B50087D9A2 /* NotificationCenterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterExtensions.swift; sourceTree = "<group>"; };
 		97E7A52A24B1D8B10087D9A2 /* AppURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppURLs.swift; sourceTree = "<group>"; };
+		97E7A52C24B1DBC50087D9A2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				97DD414424A68C4800C36EA9 /* TaskDetailView.swift */,
 				97DD414024A68BFB00C36EA9 /* TasksOverview.swift */,
 				97DD414E24A6A06A00C36EA9 /* EditTaskView.swift */,
+				97E7A52C24B1DBC50087D9A2 /* SettingsView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 				97E7A52B24B1D8B10087D9A2 /* AppURLs.swift in Sources */,
 				97E7A50D24B1C7B50087D9A2 /* NotificationCenterExtensions.swift in Sources */,
 				97DD414824A68C7D00C36EA9 /* TaskModel.swift in Sources */,
+				97E7A52D24B1DBC50087D9A2 /* SettingsView.swift in Sources */,
 				973E5E2E24A3EFEC0070FDA4 /* TaskStore.swift in Sources */,
 				97DD414B24A68D6D00C36EA9 /* TaskListItem.swift in Sources */,
 				97DD414324A68C3500C36EA9 /* AddTasksView.swift in Sources */,

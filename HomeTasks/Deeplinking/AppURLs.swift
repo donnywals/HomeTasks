@@ -18,7 +18,7 @@ extension URL {
     }
 
     if host == "tasklist" {
-      return .taskList
+      return .tasksOverview
     } else if host == "task" {
       guard pathComponents.count > 1,
             let id = UUID(uuidString:pathComponents[1]) else {
@@ -27,6 +27,8 @@ extension URL {
       }
       
       return .task(id: id)
+    } else if host == "settings" {
+      return .settings
     }
     
     return nil
@@ -34,8 +36,9 @@ extension URL {
 }
 
 extension URL {
-  enum AppSection {
-    case taskList
+  enum AppSection: Equatable {
+    case tasksOverview
+    case settings
     case task(id: UUID)
   }
 }
