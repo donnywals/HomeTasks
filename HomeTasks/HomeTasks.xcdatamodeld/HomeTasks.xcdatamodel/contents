@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17162" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17162" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ManagedTask" representedClassName="ManagedTask" syncable="YES" codeGenerationType="class">
         <attribute name="firstOccurrence" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="interval" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
+        <attribute name="nextDueDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="rawIntervalType" attributeType="String"/>
         <attribute name="shouldNotify" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="completions" toMany="YES" deletionRule="Nullify" destinationEntity="ManagedTaskCompletion" inverseName="task" inverseEntity="ManagedTaskCompletion"/>
+    </entity>
+    <entity name="ManagedTaskCompletion" representedClassName="ManagedTaskCompletion" syncable="YES" codeGenerationType="class">
+        <attribute name="completedOn" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="notes" attributeType="String"/>
+        <relationship name="task" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedTask" inverseName="completions" inverseEntity="ManagedTask"/>
     </entity>
     <elements>
-        <element name="ManagedTask" positionX="-63" positionY="-18" width="128" height="133"/>
+        <element name="ManagedTask" positionX="-63" positionY="-18" width="128" height="163"/>
+        <element name="ManagedTaskCompletion" positionX="-63" positionY="27" width="128" height="103"/>
     </elements>
 </model>

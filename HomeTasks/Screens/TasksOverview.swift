@@ -18,22 +18,29 @@ struct TasksOverview: View {
     NavigationView {
       List {
         Section(header: Text("Due soon")) {
-          ForEach(taskStore.tasks) { task in
+          ForEach(taskStore.tasksDueSoon) { task in
             NavigationLink(destination: TaskDetailView(task: task, taskStore: taskStore), tag: task.id!, selection: $activeUUID) {
               TaskListItem(task: task)
             }
           }.onDelete(perform: { indexSet in
             for index in indexSet {
-              let task = taskStore.tasks[index]
+              let task = taskStore.tasksDueSoon[index]
               taskStore.delete(task)
             }
           })
         }
         
         Section(header: Text("Due later")) {
-          ForEach(taskStore.tasks) { task in
-            TaskListItem(task: task)
-          }
+          ForEach(taskStore.tasksDueLater) { task in
+            NavigationLink(destination: TaskDetailView(task: task, taskStore: taskStore), tag: task.id!, selection: $activeUUID) {
+              TaskListItem(task: task)
+            }
+          }.onDelete(perform: { indexSet in
+            for index in indexSet {
+              let task = taskStore.tasksDueLater[index]
+              taskStore.delete(task)
+            }
+          })
         }
       }
       .listStyle(InsetGroupedListStyle())
@@ -46,7 +53,6 @@ struct TasksOverview: View {
           isAddingTask = true
         })
       .onOpenURL(perform: { url in
-        print(taskStore.tasks.first!.id!)
         if case .task(let id) = url.appSection {
           activeUUID = id
         }

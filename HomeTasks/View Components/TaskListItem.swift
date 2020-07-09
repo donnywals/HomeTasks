@@ -23,7 +23,7 @@ struct TaskListItem: View {
           .font(Font.system(size: 18))
           .fontWeight(.bold)
         
-        Text(task.firstOccurrence, style: .date)
+        Text(task.nextDueDate!, style: .date)
         
         Text("Every \(task.interval) \(task.intervalType.rawValue)")
       }

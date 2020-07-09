@@ -20,12 +20,12 @@ struct TaskDetailView: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      TopSection(task: task)
+      TopSection(task: $task, taskStore: taskStore)
       
       List {
         Section(header: Text("History")) {
-          ForEach(0..<10, id: \.self) { _ in
-            Text("Item")
+          ForEach(task.completions) { completion in
+            Text("\(completion.completedOn, style: .date) \(completion.completedOn, style: .time)")
           }
         }
       }
@@ -44,7 +44,8 @@ struct TaskDetailView: View {
 
 extension TaskDetailView {
   struct TopSection: View {
-    let task: TaskModel
+    @Binding var task: TaskModel
+    @ObservedObject var taskStore: TaskStore
     
     var body: some View {
       VStack(alignment: .leading, spacing: 4) {
@@ -55,6 +56,10 @@ extension TaskDetailView {
         
         Text("Every \(task.interval) \(task.intervalType.rawValue)")
         Text("Notifications are \(task.shouldNotify ? "on" : "off")")
+        
+        Button("Task completed") {
+          taskStore.createCompletion(for: $task)
+        }
       }
       .padding()
     }
