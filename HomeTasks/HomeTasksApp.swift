@@ -10,25 +10,10 @@ import CoreData
 
 @main
 struct HomeTasksApp: App {
-  let persistentContainer: NSPersistentContainer = {
-      let container = NSPersistentContainer(name: "HomeTasks")
-      container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-          if let error = error as NSError? {
-              fatalError("Unresolved error \(error), \(error.userInfo)")
-          }
-      })
-      return container
-  }()
-  
   let notificationHandler = NotificationHandler()
   
-  @StateObject var taskStore: TaskStore
+  @StateObject var taskStore = TaskStore(.persistent)
   @State var activeTab = TabIdentifier.tasksOverview
-  
-  init() {
-    let s = TaskStore(persistentContainer: persistentContainer)
-    self._taskStore = StateObject(wrappedValue: s)
-  }
   
   var body: some Scene {
     WindowGroup {

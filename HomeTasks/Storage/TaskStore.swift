@@ -10,18 +10,40 @@ import CoreData
 import SwiftUI
 import Combine
 
+enum StorageType {
+  case persistent, inMemory
+}
+
 class TaskStore: ObservableObject {
   @Published var tasksDueSoon: [TaskModel]
   @Published var tasksDueLater: [TaskModel]
   
   let persistentContainer: NSPersistentContainer
   
-  init(persistentContainer: NSPersistentContainer) {
-    self.persistentContainer = persistentContainer
+  init(_ storageType: StorageType) {
+    self.persistentContainer = NSPersistentContainer(name: "HomeTasks")
+    
+    if storageType == .inMemory {
+      let description = NSPersistentStoreDescription()
+      description.type = NSInMemoryStoreType
+      self.persistentContainer.persistentStoreDescriptions = [description]
+    }
+    
+    self.persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
+      if let error = error as NSError? {
+        fatalError("Unresolved error \(error), \(error.userInfo)")
+      }
+    })
+    
     self.tasksDueSoon = []
     self.tasksDueLater = []
-
+    
     updateTasks()
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(managedObjectContextSaved(_:)),
+                                           name: Notification.Name.NSManagedObjectContextDidSave,
+                                           object: persistentContainer.viewContext)
   }
   
   func updateOrCreateTask(fromModel model: TaskModel) {
@@ -31,9 +53,7 @@ class TaskStore: ObservableObject {
       updateTask(fromModel: model)
     }
     
-    try? persistentContainer.viewContext.save()
-    
-    updateTasks()
+    persistentContainer.viewContext.saveOrRollback()
   }
   
   func delete(_ model: TaskModel) {
@@ -45,8 +65,7 @@ class TaskStore: ObservableObject {
     let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
     
     _ = try! persistentContainer.viewContext.execute(deleteRequest)
-    try? persistentContainer.viewContext.save()
-    updateTasks()
+    persistentContainer.viewContext.saveOrRollback()
   }
   
   func createCompletion(for task: Binding<TaskModel>) {
@@ -62,9 +81,7 @@ class TaskStore: ObservableObject {
     
     managedTask.nextDueDate = determineNextDueDate(for: task.wrappedValue)
     
-    try? persistentContainer.viewContext.save()
-    
-    updateTasks()
+    persistentContainer.viewContext.saveOrRollback()
     
     task.wrappedValue = TaskModel(task: managedTask)
   }
@@ -73,9 +90,8 @@ class TaskStore: ObservableObject {
     let task = ManagedTask(context: persistentContainer.viewContext)
     task.id = UUID()
     
-    task.nextDueDate = determineNextDueDate(for: model)
-    
     apply(model: model, to: task)
+    task.nextDueDate = determineNextDueDate(for: model)
   }
   
   private func updateTask(fromModel model: TaskModel) {
@@ -151,7 +167,11 @@ class TaskStore: ObservableObject {
   }
 }
 
-extension ManagedTask: Identifiable { }
+extension TaskStore {
+  @objc func managedObjectContextSaved(_ notification: Notification) {
+    updateTasks()
+  }
+}
 
 extension ManagedTask {
   enum IntervalType: String, CaseIterable {

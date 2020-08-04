@@ -51,7 +51,7 @@ extension TaskDetailView {
       VStack(alignment: .leading, spacing: 4) {
         Text(task.name)
           .font(.title)
-        Text(task.firstOccurrence, style: .date)
+        Text(task.nextDueDate ?? task.firstOccurrence, style: .date)
           .font(.subheadline)
         
         Text("Every \(task.interval) \(task.intervalType.rawValue)")

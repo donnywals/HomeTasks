@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17162" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17175" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ManagedTask" representedClassName="ManagedTask" syncable="YES" codeGenerationType="class">
         <attribute name="firstOccurrence" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
@@ -16,8 +16,19 @@
         <attribute name="notes" attributeType="String"/>
         <relationship name="task" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedTask" inverseName="completions" inverseEntity="ManagedTask"/>
     </entity>
+    <entity name="TodoCompletion" representedClassName=".TodoCompletion" syncable="YES" codeGenerationType="category">
+        <attribute name="completionDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TodoItem" inverseName="completions" inverseEntity="TodoItem"/>
+    </entity>
+    <entity name="TodoItem" representedClassName=".TodoItem" syncable="YES" codeGenerationType="category">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="label" optional="YES" attributeType="String"/>
+        <relationship name="completions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TodoCompletion" inverseName="item" inverseEntity="TodoCompletion"/>
+    </entity>
     <elements>
         <element name="ManagedTask" positionX="-63" positionY="-18" width="128" height="163"/>
         <element name="ManagedTaskCompletion" positionX="-63" positionY="27" width="128" height="103"/>
+        <element name="TodoItem" positionX="-54" positionY="54" width="128" height="88"/>
+        <element name="TodoCompletion" positionX="-45" positionY="63" width="128" height="73"/>
     </elements>
 </model>
